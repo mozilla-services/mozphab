@@ -1,4 +1,4 @@
-R# This Source Code Form is subject to the terms of the Mozilla Public
+# This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
@@ -92,6 +92,8 @@ RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GI
     && mv libphutil-${LIBPHUTIL_GIT_SHA} libphutil \
     && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz \
     && chown -R www-data:www-data phabricator arcanist libphutil
+
+COPY version.json /version.json
 
 VOLUME ["/repo"]
 
