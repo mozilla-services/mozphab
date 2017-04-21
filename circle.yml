@@ -28,7 +28,8 @@ compile:
     - invoke imageid | tee $CIRCLE_ARTIFACTS/docker-image-shasum256.txt
 
 test:
-  override: ~
+  override:
+    - docker inspect $(invoke imageid)
 
 deployment:
   dockerhub_latest:
