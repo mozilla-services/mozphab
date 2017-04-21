@@ -30,7 +30,6 @@ compile:
 test:
   override: ~
 
-
 deployment:
   dockerhub_latest:
     branch: "master"
