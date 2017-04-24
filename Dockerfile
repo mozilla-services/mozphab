@@ -28,7 +28,9 @@ RUN apk --no-cache --update add \
     libjpeg-turbo \
     libmcrypt \
     libpng \
-    mariadb-client-libs
+    mercurial \
+    mariadb-client-libs \
+    py-pygments
 
 # Build PHP extensions
 RUN apk --no-cache add --virtual build-dependencies \

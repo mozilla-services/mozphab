@@ -30,6 +30,10 @@ set -x
 # using a port other than 80 (http) or 443 (https).
 ./bin/config set phabricator.base-uri "${PHABRICATOR_URI}"
 
+# Set recommended runtime configuration values to silence setup warnings.
+./bin/config set storage.mysql-engine.max-size 8388608
+./bin/config set pygments.enabled true
+
 # FIXME: make this happen on first-run only!
 # See 'bin/storage status' for possible first-run control points.
 ./bin/storage upgrade --force
