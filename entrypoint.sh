@@ -34,4 +34,7 @@ set -x
 # See 'bin/storage status' for possible first-run control points.
 ./bin/storage upgrade --force
 
+# Start phd service so Phabricator daemons run.
+./bin/phd start
+
 exec php-fpm

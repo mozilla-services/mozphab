@@ -77,6 +77,7 @@ RUN { \
 # in the application).
 RUN { \
         echo 'always_populate_raw_post_data=-1'; \
+        echo 'post_max_size="32M"'; \
     } | tee /usr/local/etc/php/conf.d/phabricator.ini
 
 WORKDIR /var/www/html
