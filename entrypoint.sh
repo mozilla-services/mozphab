@@ -14,7 +14,6 @@ cd phabricator
 
 # Set the local repository and make sure it is readable by the web user.
 ./bin/config set repository.default-local-path "${REPOSITORY_LOCAL_PATH}"
-chown -R www-data:www-data $REPOSITORY_LOCAL_PATH
 
 ./bin/config set mysql.host ${MYSQL_HOST}
 ./bin/config set mysql.port ${MYSQL_PORT}

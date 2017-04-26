@@ -82,8 +82,13 @@ RUN { \
         echo 'post_max_size="32M"'; \
     } | tee /usr/local/etc/php/conf.d/phabricator.ini
 
-WORKDIR /var/www/html
+# add a non-privileged user for installing and running the application
+RUN addgroup -g 10001 app && adduser -D -u 10001 -G app -h /app app
 
+COPY . /app
+WORKDIR /app
+
+# Install Phabricator code
 RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GIT_SHA}.tar.gz -o phabricator.tar.gz \
     && curl -fsSL https://github.com/phacility/arcanist/archive/${ARCANIST_GIT_SHA}.tar.gz -o arcanist.tar.gz \
     && curl -fsSL https://github.com/phacility/libphutil/archive/${LIBPHUTIL_GIT_SHA}.tar.gz -o libphutil.tar.gz \
@@ -93,16 +98,15 @@ RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GI
     && mv phabricator-${PHABRICATOR_GIT_SHA} phabricator \
     && mv arcanist-${ARCANIST_GIT_SHA} arcanist \
     && mv libphutil-${LIBPHUTIL_GIT_SHA} libphutil \
-    && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz \
-    && chown -R www-data:www-data phabricator arcanist libphutil
+    && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz
 
-COPY version.json /version.json
+RUN chmod +x /app/entrypoint.sh \
+    && mkdir $REPOSITORY_LOCAL_PATH \
+    && chown -R app:app /app $REPOSITORY_LOCAL_PATH
 
-VOLUME ["/repo"]
-
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+VOLUME ["$REPOSITORY_LOCAL_PATH"]
 
 EXPOSE 9000
 
-CMD "/entrypoint.sh"
+USER app
+CMD ["/app/entrypoint.sh"]
