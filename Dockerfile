@@ -8,6 +8,10 @@
 FROM php:5.6-fpm-alpine
 
 MAINTAINER mars@mozilla.com
+# These are unlikely to change from version to version of the container
+EXPOSE 9000
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["start"]
 
 # Git commit SHAs for the build artifact we want to grab.
 # Default is SHAs for 2017 Week 14
@@ -20,7 +24,6 @@ ENV LIBPHUTIL_GIT_SHA f568eb7b9542259cd3c0dcb3405cc9a83c90a2f5
 
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
-
 # Runtime dependencies
 RUN apk --no-cache --update add \
     curl \
@@ -82,6 +85,7 @@ RUN { \
         echo 'post_max_size="32M"'; \
     } | tee /usr/local/etc/php/conf.d/phabricator.ini
 
+
 WORKDIR /var/www/html
 
 RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GIT_SHA}.tar.gz -o phabricator.tar.gz \
@@ -95,14 +99,9 @@ RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GI
     && mv libphutil-${LIBPHUTIL_GIT_SHA} libphutil \
     && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz \
     && chown -R www-data:www-data phabricator arcanist libphutil
-
-COPY version.json /version.json
-
-VOLUME ["/repo"]
-
+# Assumes that whatever is proxying this will have a route to __version__ and a
+# way to serve the file
+RUN printf "{ \"phabricator_version\": \"${PHABRICATOR_GIT_SHA}\", \"phabricator_source\": \"https://github.com/phacility/phabricator\", \"arcanist_version\": \"${ARCANIST_GIT_SHA}\", \"arcanist_source\": \"https://github.com/phacility/arcanist\", \"libphutil_version\": \"${LIBPHUTIL_GIT_SHA}\", \"libphutil_source\": \"https://github.com/phacility/libphutil\" }" >> version.json
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-EXPOSE 9000
-
-CMD "/entrypoint.sh"
+VOLUME ["/repo","/var/www/html"]
