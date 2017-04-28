@@ -104,7 +104,7 @@ RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GI
     && mv libphutil-${LIBPHUTIL_GIT_SHA} libphutil \
     && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz
 # Create version.json
-RUN merge_versions.py
+RUN /app/merge_versions.py
 RUN chmod +x /app/entrypoint.sh \
     && mkdir $REPOSITORY_LOCAL_PATH \
     && chown -R app:app /app $REPOSITORY_LOCAL_PATH
