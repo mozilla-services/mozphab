@@ -4,21 +4,23 @@ import os
 import sys
 
 try:
-    infile = open('circle.json', 'r')
-    circle_data = json.load(infile)
+    with open('circle.json', 'r') as f:
+        circle_data = json.load(f)
 except IOError:
-    circle_data = json.loads("{}")
+    circle_data = {}
 
 app_data = dict()
-app_data['arcanist_source'] = 'https://github.com/phacility/arcanist'
-app_data['arcanist_version'] = os.getenv('ARCANIST_GIT_SHA', None)
-app_data['libphutil_source'] = 'https://github.com/phacility/libphutil'
-app_data['libphutil_version'] = os.getenv('LIBPHUTIL_GIT_SHA', None)
-app_data['phabricator_source'] = 'https://github.com/phacility/phabricator'
-app_data['phabricator_version'] = os.getenv('PHABRICATOR_GIT_SHA', None)
-version_info = dict(circle_data.items() + app_data.items())
+app_data = {
+    'arcanist_source': 'https://github.com/phacility/arcanist',
+    'arcanist_version': os.getenv('ARCANIST_GIT_SHA', None),
+    'libphutil_source': 'https://github.com/phacility/libphutil',
+    'libphutil_version': os.getenv('LIBPHUTIL_GIT_SHA', None),
+    'phabricator_source': 'https://github.com/phacility/phabricator',
+    'phabricator_version': os.getenv('PHABRICATOR_GIT_SHA', None),
+}
+app_data.update(circle_data)
 try:
-    OUTFILE = open('version.json', 'w')
-    json.dump(version_info, OUTFILE)
+    with open('version.json', 'w') as f:
+        json.dump(app_data, f)
 except IOError:
     sys.exit()
