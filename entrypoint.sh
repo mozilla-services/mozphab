@@ -30,17 +30,14 @@ case "$ARG" in
       ./bin/storage upgrade --force && exit
       ;;
   "start")
-      # Set the local repository and make sure it is readable by the web user.
+      # Set the local repository
       if [ -n "${REPOSITORY_LOCAL_PATH}" ]; then
         if [ -d "${REPOSITORY_LOCAL_PATH}" ]; then
           :
         else
           mkdir -p "${REPOSITORY_LOCAL_PATH}"
         fi
-
-        ./bin/config set repository.default-local-path "${REPOSITORY_LOCAL_PATH}" \
-        chown -R www-data:www-data "$REPOSITORY_LOCAL_PATH"
-
+        ./bin/config set repository.default-local-path "${REPOSITORY_LOCAL_PATH}"
       else
         echo "No REPOSITORY_LOCAL_PATH set"
         exit

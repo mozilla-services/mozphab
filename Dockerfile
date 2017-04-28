@@ -22,6 +22,7 @@ ENV ARCANIST_GIT_SHA 3512c4ab86d66a103a6733a0589177f93b6d6811
 # From https://github.com/phacility/libphutil/commits/stable
 ENV LIBPHUTIL_GIT_SHA f568eb7b9542259cd3c0dcb3405cc9a83c90a2f5
 
+
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
 # Runtime dependencies
@@ -102,13 +103,10 @@ RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GI
     && mv arcanist-${ARCANIST_GIT_SHA} arcanist \
     && mv libphutil-${LIBPHUTIL_GIT_SHA} libphutil \
     && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz
-# Assumes that whatever is proxying this will have a route to __version__ and a
-# way to serve the file
-RUN printf "{ \"phabricator_version\": \"${PHABRICATOR_GIT_SHA}\", \"phabricator_source\": \"https://github.com/phacility/phabricator\", \"arcanist_version\": \"${ARCANIST_GIT_SHA}\", \"arcanist_source\": \"https://github.com/phacility/arcanist\", \"libphutil_version\": \"${LIBPHUTIL_GIT_SHA}\", \"libphutil_source\": \"https://github.com/phacility/libphutil\" }" >> version.json
-
+# Create version.json
+RUN merge_versions.py
 RUN chmod +x /app/entrypoint.sh \
     && mkdir $REPOSITORY_LOCAL_PATH \
     && chown -R app:app /app $REPOSITORY_LOCAL_PATH
-
 USER app
 VOLUME ["$REPOSITORY_LOCAL_PATH", "/app"]
