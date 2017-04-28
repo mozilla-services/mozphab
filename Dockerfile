@@ -103,10 +103,13 @@ RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GI
     && mv arcanist-${ARCANIST_GIT_SHA} arcanist \
     && mv libphutil-${LIBPHUTIL_GIT_SHA} libphutil \
     && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz
+
 # Create version.json
 RUN /app/merge_versions.py
-RUN chmod +x /app/entrypoint.sh \
+
+RUN chmod +x /app/entrypoint.sh /app/wait-for-mysql.php \
     && mkdir $REPOSITORY_LOCAL_PATH \
     && chown -R app:app /app $REPOSITORY_LOCAL_PATH
+
 USER app
 VOLUME ["$REPOSITORY_LOCAL_PATH", "/app"]

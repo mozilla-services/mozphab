@@ -9,8 +9,11 @@
 # Configure Phabricator on startup from environment variables.
 
 set -ex
+
 cd phabricator
+
 test -n "${MYSQL_HOST}" \
+  && /app/wait-for-mysql.php \
   && ./bin/config set mysql.host ${MYSQL_HOST}
 test -n "${MYSQL_PORT}" \
   && ./bin/config set mysql.port ${MYSQL_PORT}
