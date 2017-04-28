@@ -8,6 +8,10 @@
 FROM php:5.6-fpm-alpine
 
 MAINTAINER mars@mozilla.com
+# These are unlikely to change from version to version of the container
+EXPOSE 9000
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["start"]
 
 # Git commit SHAs for the build artifact we want to grab.
 # Default is SHAs for 2017 Week 14
@@ -18,9 +22,9 @@ ENV ARCANIST_GIT_SHA 3512c4ab86d66a103a6733a0589177f93b6d6811
 # From https://github.com/phacility/libphutil/commits/stable
 ENV LIBPHUTIL_GIT_SHA f568eb7b9542259cd3c0dcb3405cc9a83c90a2f5
 
+
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
-
 # Runtime dependencies
 RUN apk --no-cache --update add \
     curl \
@@ -99,14 +103,10 @@ RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GI
     && mv arcanist-${ARCANIST_GIT_SHA} arcanist \
     && mv libphutil-${LIBPHUTIL_GIT_SHA} libphutil \
     && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz
-
+# Create version.json
+RUN /app/merge_versions.py
 RUN chmod +x /app/entrypoint.sh \
     && mkdir $REPOSITORY_LOCAL_PATH \
     && chown -R app:app /app $REPOSITORY_LOCAL_PATH
-
-VOLUME ["$REPOSITORY_LOCAL_PATH"]
-
-EXPOSE 9000
-
 USER app
-CMD ["/app/entrypoint.sh"]
+VOLUME ["$REPOSITORY_LOCAL_PATH", "/app"]
