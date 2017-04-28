@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 import json
 import os
 import sys
 
 try:
-    infile = open('/app/circle.json', 'r')
+    infile = open('circle.json', 'r')
     circle_data = json.load(infile)
 except IOError:
     circle_data = json.loads("{}")
@@ -16,9 +16,9 @@ app_data['libphutil_source'] = 'https://github.com/phacility/libphutil'
 app_data['libphutil_version'] = os.getenv('LIBPHUTIL_GIT_SHA', None)
 app_data['phabricator_source'] = 'https://github.com/phacility/phabricator'
 app_data['phabricator_version'] = os.getenv('PHABRICATOR_GIT_SHA', None)
-version_info = {**circle_data, **app_data}
+version_info = dict(circle_data.items() + app_data.items())
 try:
-    OUTFILE = open('/app/version.json', 'w')
+    OUTFILE = open('version.json', 'w')
     json.dump(version_info, OUTFILE)
 except IOError:
     sys.exit()
