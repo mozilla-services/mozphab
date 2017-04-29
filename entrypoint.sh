@@ -27,12 +27,15 @@ test -n "${1}" \
   && ARG=$(echo ${1:-start}  | tr [A-Z] [a-z])
 
 case "$ARG" in
-  "storage")
-      # FIXME: make this happen on first-run only!
-      # See 'bin/storage status' for possible first-run control points.
-      ./bin/storage upgrade --force && exit
-      ;;
   "start")
+      # Create database if one does not exist
+      set +e
+      ./bin/storage status > /dev/null 2>&1
+      if [ $? -gt 0 ]; then
+        set -e
+        ./bin/storage upgrade --force
+      fi
+
       # Set the local repository
       if [ -n "${REPOSITORY_LOCAL_PATH}" ]; then
         if [ -d "${REPOSITORY_LOCAL_PATH}" ]; then
