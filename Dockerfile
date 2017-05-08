@@ -33,7 +33,9 @@ RUN apk --no-cache --update add \
     libmcrypt \
     libpng \
     mercurial \
+    mariadb-client \
     mariadb-client-libs \
+    ncurses \
     py-pygments
 
 # Build PHP extensions
