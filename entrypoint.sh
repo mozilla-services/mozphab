@@ -56,10 +56,13 @@ case "$ARG" in
       # using a port other than 80 (http) or 443 (https).
       test -n "${PHABRICATOR_URI}" \
        && ./bin/config set phabricator.base-uri "${PHABRICATOR_URI}"
+      test -n "${PHABRICATOR_CDN_URI}" \
+       && ./bin/config set security.alternate-file-domain "${PHABRICATOR_CDN_URI}"
 
       # Set recommended runtime configuration values to silence setup warnings.
       ./bin/config set storage.mysql-engine.max-size 8388608
       ./bin/config set pygments.enabled true
+      ./bin/config set phabricator.timezone UTC
 
       # Start phd and php-fpm running in the foreground
       ./bin/phd start && /usr/local/sbin/php-fpm -F
