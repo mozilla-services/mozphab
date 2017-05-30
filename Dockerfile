@@ -89,7 +89,7 @@ RUN { \
     } | tee /usr/local/etc/php/conf.d/phabricator.ini
 
 # add a non-privileged user for installing and running the application
-RUN addgroup -g 10001 app && adduser -D -u 10001 -G app -h /app app
+RUN addgroup -g 10001 app && adduser -D -u 10001 -G app -h /app -s /bin/sh app
 
 COPY . /app
 WORKDIR /app
