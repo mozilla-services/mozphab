@@ -78,6 +78,15 @@ case "$ARG" in
       ./bin/storage dump
       exit
       ;;
+  "arc-liberate")
+	  cd src
+	  ../../arcanist/bin/arc liberate
+	  ;;
+  "test-ext")
+	  # Find all extension tests and call them
+	  cd src
+	  ../../arcanist/bin/arc unit extensions/*/__tests__/*php extensions/*/*/__tests__/*php
+	  ;;
   *)
       exec $ARG
       ;;
