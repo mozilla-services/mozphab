@@ -114,4 +114,4 @@ RUN chmod +x /app/entrypoint.sh /app/wait-for-mysql.php \
     && chown -R app:app /app $REPOSITORY_LOCAL_PATH
 
 USER app
-VOLUME ["$REPOSITORY_LOCAL_PATH", "/app"]
+VOLUME ["$REPOSITORY_LOCAL_PATH"]
