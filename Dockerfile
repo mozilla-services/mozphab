@@ -60,7 +60,7 @@ RUN apk --no-cache add --virtual build-dependencies \
         mysqli \
         opcache \
         pcntl \
-    && pecl install apcu-4.0.11 \
+    && pecl install https://s3.amazonaws.com/net-mozaws-dev-mozphab-pecl-mirror/apcu-4.0.11.tgz \
     && docker-php-ext-enable apcu \
     && apk del build-dependencies
 
