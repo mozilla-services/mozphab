@@ -64,6 +64,10 @@ case "$ARG" in
       ./bin/config set pygments.enabled true
       ./bin/config set phabricator.timezone UTC
 
+      # Ensure that we have an updated static resources map
+      # Required so extension resources are accounted for and available
+      ./bin/celerity map
+
       # Start phd and php-fpm running in the foreground
       ./bin/phd start && /usr/local/sbin/php-fpm -F
       ;;
