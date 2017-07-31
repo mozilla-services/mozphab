@@ -30,6 +30,7 @@ RUN apk --no-cache --update add \
     curl \
     freetype \
     g++ \
+    git \
     libjpeg-turbo \
     libmcrypt \
     libpng \
