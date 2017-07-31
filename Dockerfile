@@ -29,6 +29,7 @@ ENV REPOSITORY_LOCAL_PATH /repo
 RUN apk --no-cache --update add \
     curl \
     freetype \
+    git \
     libjpeg-turbo \
     libmcrypt \
     libpng \
