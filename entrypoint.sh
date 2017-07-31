@@ -68,6 +68,9 @@ case "$ARG" in
       # Required so extension resources are accounted for and available
       ./bin/celerity map
 
+      # Build diviner docs
+      ./bin/diviner generate
+
       # Start phd and php-fpm running in the foreground
       ./bin/phd start && /usr/local/sbin/php-fpm -F
       ;;

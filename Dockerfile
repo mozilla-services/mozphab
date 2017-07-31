@@ -29,10 +29,12 @@ ENV REPOSITORY_LOCAL_PATH /repo
 RUN apk --no-cache --update add \
     curl \
     freetype \
+    g++ \
     git \
     libjpeg-turbo \
     libmcrypt \
     libpng \
+    make \
     mercurial \
     mariadb-client \
     mariadb-client-libs \
@@ -105,7 +107,8 @@ RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GI
     && mv phabricator-${PHABRICATOR_GIT_SHA} phabricator \
     && mv arcanist-${ARCANIST_GIT_SHA} arcanist \
     && mv libphutil-${LIBPHUTIL_GIT_SHA} libphutil \
-    && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz
+    && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz \
+    && ./libphutil/scripts/build_xhpast.php
 
 # Create version.json
 RUN /app/merge_versions.py
