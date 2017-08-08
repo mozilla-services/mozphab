@@ -68,11 +68,20 @@ case "$ARG" in
       # Required so extension resources are accounted for and available
       ./bin/celerity map
 
-      # Build diviner docs
-      ./bin/diviner generate
-
       # Start phd and php-fpm running in the foreground
       ./bin/phd start && /usr/local/sbin/php-fpm -F
+      ;;
+  "docs")
+      # Create database if one does not exist
+      set +e
+      ./bin/storage status > /dev/null 2>&1
+      if [ $? -gt 0 ]; then
+        set -e
+        ./bin/storage upgrade --force
+      fi
+
+      # Build diviner docs
+      ./bin/diviner generate
       ;;
   "data")
       # Allows the container to be used as a data-volume only container
