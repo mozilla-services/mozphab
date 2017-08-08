@@ -21,12 +21,9 @@ ENV PHABRICATOR_GIT_SHA 699ab153e3751e5389c69db4387d261e358de290
 ENV ARCANIST_GIT_SHA 3512c4ab86d66a103a6733a0589177f93b6d6811
 # From https://github.com/phacility/libphutil/commits/stable
 ENV LIBPHUTIL_GIT_SHA f568eb7b9542259cd3c0dcb3405cc9a83c90a2f5
-# From https://www.mercurial-scm.org/release
-ENV MERCURIAL_VERSION 4.2.2
-
-
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
+
 # Runtime dependencies
 RUN apk --no-cache --update add \
     curl \
@@ -43,8 +40,9 @@ RUN apk --no-cache --update add \
     py-pygments
 
 # Install mercurial from source b/c it's wicked out of date on main
+COPY mercurial_requirements.txt requirements.txt
 RUN apk add python-dev py-pip && \
-      pip install -I mercurial==${MERCURIAL_VERSION}
+      pip install --require-hashes -r requirements.txt
 
 # Build PHP extensions
 RUN apk --no-cache add --virtual build-dependencies \
