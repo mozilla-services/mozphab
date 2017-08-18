@@ -4,8 +4,9 @@ import os
 import sys
 
 try:
-    with open('/app/mozphab.json', 'r') as f:
+    with open('/app/version.json', 'r') as f:
         circle_data = json.load(f)
+        f.close()
 except IOError:
     circle_data = {}
 
@@ -20,7 +21,7 @@ app_data = {
 }
 app_data.update(circle_data)
 try:
-    with open('/app/mozphab.json', 'w') as f:
+    with open('/app/version.json', 'w') as f:
         json.dump(app_data, f)
 except IOError:
     sys.exit()
