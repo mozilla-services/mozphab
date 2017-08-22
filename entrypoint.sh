@@ -28,13 +28,10 @@ test -n "${1}" \
 
 case "$ARG" in
   "start")
-      # Create database if one does not exist
       set +e
-      ./bin/storage status > /dev/null 2>&1
-      if [ $? -gt 0 ]; then
-        set -e
-        ./bin/storage upgrade --force
-      fi
+
+      # Create database if one does not exist
+      ./bin/storage upgrade --force
 
       # Set the local repository
       if [ -n "${REPOSITORY_LOCAL_PATH}" ]; then
