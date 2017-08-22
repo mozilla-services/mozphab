@@ -30,9 +30,6 @@ case "$ARG" in
   "start")
       set +e
 
-      # Create database if one does not exist
-      ./bin/storage upgrade --force
-
       # Set the local repository
       if [ -n "${REPOSITORY_LOCAL_PATH}" ]; then
         if [ -d "${REPOSITORY_LOCAL_PATH}" ]; then
@@ -69,14 +66,6 @@ case "$ARG" in
       ./bin/phd start && /usr/local/sbin/php-fpm -F
       ;;
   "docs")
-      # Create database if one does not exist
-      set +e
-      ./bin/storage status > /dev/null 2>&1
-      if [ $? -gt 0 ]; then
-        set -e
-        ./bin/storage upgrade --force
-      fi
-
       # Build diviner docs
       ./bin/diviner generate
       ;;
@@ -89,6 +78,16 @@ case "$ARG" in
       ;;
   "dump")
       ./bin/storage dump
+      exit
+      ;;
+  "check_database")
+      # Upgrade database and also create one if it does not exist
+      set +e
+      DO_DATABASE=0
+      ./bin/storage status > /dev/null 2>&1
+      [ $? -gt 0 ] && DO_DATABASE=1
+      [ ! -z "$(./bin/storage status | grep -i 'not applied')" ] && DO_DATABASE=1
+      [ $DO_DATABASE -gt 0 ] && ./bin/storage upgrade --force
       exit
       ;;
   *)
