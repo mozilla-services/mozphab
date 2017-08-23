@@ -30,7 +30,7 @@ while ($tries < $max_tries) {
 
     fwrite($stdout, "Connection not ready. Retrying...");
     $tries++;
-    sleep(1);
+    sleep(2);
 }
 
 fwrite($stdout, "\nMax tries reached. Connection failed!\n");
