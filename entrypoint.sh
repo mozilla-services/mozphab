@@ -53,7 +53,16 @@ case "$ARG" in
       test -n "${PHABRICATOR_CDN_URI}" \
        && ./bin/config set security.alternate-file-domain "${PHABRICATOR_CDN_URI}"
 
-      # Set recommended runtime configuration values to silence setup warnings.
+      # When running as a development environment or for demonstration purposes we
+      # may want to set the default values for bugzilla settings to something custom.
+      test -n "${BUGZILLA_URL}" \
+       && ./bin/config set bugzilla.url "${BUGZILLA_URL}"
+      test -n "${BUGZILLA_AUTOMATION_USER}" \
+       && ./bin/config set bugzilla.automation_user "${BUGZILLA_AUTOMATION_USER}"
+      test -n "${BUGZILLA_AUTOMATION_API_KEY}" \
+       && ./bin/config set bugzilla.automation_api_key "${BUGZILLA_AUTOMATION_API_KEY}"
+
+-      # Set recommended runtime configuration values to silence setup warnings.
       ./bin/config set storage.mysql-engine.max-size 8388608
       ./bin/config set pygments.enabled true
       ./bin/config set phabricator.timezone UTC
