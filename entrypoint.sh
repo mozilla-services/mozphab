@@ -62,7 +62,7 @@ case "$ARG" in
       test -n "${BUGZILLA_AUTOMATION_API_KEY}" \
        && ./bin/config set bugzilla.automation_api_key "${BUGZILLA_AUTOMATION_API_KEY}"
 
--      # Set recommended runtime configuration values to silence setup warnings.
+      # Set recommended runtime configuration values to silence setup warnings.
       ./bin/config set storage.mysql-engine.max-size 8388608
       ./bin/config set pygments.enabled true
       ./bin/config set phabricator.timezone UTC
