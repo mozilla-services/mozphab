@@ -3,7 +3,7 @@
   "description": "Mozilla's Phabricator instance for code review",
   "repository": {
     "url": "https://github.com/mozilla-services/mozphab",
-    "license": "MPL2",
+    "license": "Apache License, Version 2.0",
     "tests": "https://circleci.com/gh/mozilla-services/mozphab/tree/master"
   },
   "participate": {
