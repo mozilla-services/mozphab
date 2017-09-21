@@ -1,3 +1,4 @@
+#!/bin/sh
 # Configure Phabricator on startup from environment variables.
 
 set -ex
