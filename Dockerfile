@@ -9,13 +9,15 @@ CMD ["start"]
 # Git commit SHAs for the build artifact we want to grab.
 # Default is SHAs for 2017 Week 14
 # From https://github.com/phacility/phabricator/commits/stable
-ENV PHABRICATOR_GIT_SHA 5494df72282b1a1240fcbbb145eaf15a22790aae
+ENV PHABRICATOR_GIT_SHA e21d603356fc4242143a045e436d42689343e7fa
 # From https://github.com/phacility/arcanist/commits/stable
-ENV ARCANIST_GIT_SHA 4e2363d8b26d2bd8ca169c40603b4fb582dab72f
+ENV ARCANIST_GIT_SHA 76b54ce0a9af112bac2fb0498d9d44532b46f2d5
 # From https://github.com/phacility/libphutil/commits/stable
-ENV LIBPHUTIL_GIT_SHA ee5ebf668ad4fd4c0bae3fbbe6616a5826020aa9
+ENV LIBPHUTIL_GIT_SHA a6e490ef7ee0f8976336868eb049076be6f4a3d4
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
+# Explicitly set TMPDIR
+ENV TMPDIR /tmp
 
 # Runtime dependencies
 RUN apk --no-cache --update add \
