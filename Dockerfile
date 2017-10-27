@@ -9,11 +9,11 @@ CMD ["start"]
 # Git commit SHAs for the build artifact we want to grab.
 # Default is SHAs for 2017 Week 14
 # From https://github.com/phacility/phabricator/commits/stable
-ENV PHABRICATOR_GIT_SHA 5494df72282b1a1240fcbbb145eaf15a22790aae
+ENV PHABRICATOR_GIT_SHA 5975b9d28e41546a741293ed2ae1377f973bf612
 # From https://github.com/phacility/arcanist/commits/stable
-ENV ARCANIST_GIT_SHA 4e2363d8b26d2bd8ca169c40603b4fb582dab72f
+ENV ARCANIST_GIT_SHA 3dbc036df5131d2516171b1f6b68358a31a28d2a
 # From https://github.com/phacility/libphutil/commits/stable
-ENV LIBPHUTIL_GIT_SHA ee5ebf668ad4fd4c0bae3fbbe6616a5826020aa9
+ENV LIBPHUTIL_GIT_SHA 7a90825f14b2bcb2ffea52191c82e231292619f5
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
 
