@@ -7,17 +7,17 @@ ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["start"]
 
 # Git commit SHAs for the build artifact we want to grab.
-# Default is SHAs for 2017/10/25, bugfix for Promote 2017 Week 42
+# Default is SHAs for 2017/11/07 Promote 2017 Week 14 (sic, Week 44)
 # From https://github.com/phacility/phabricator/commits/stable
-ENV PHABRICATOR_GIT_SHA 5975b9d28e41546a741293ed2ae1377f973bf612
+ENV PHABRICATOR_GIT_SHA 180f3754f092d22a0d39d9c86725e28020da8210
 
 # From https://github.com/phacility/arcanist/commits/stable
-# Promote 2017 Week 42
-ENV ARCANIST_GIT_SHA 3dbc036df5131d2516171b1f6b68358a31a28d2a
+# Promote 2017 Week 14 (sic, Week 44)
+ENV ARCANIST_GIT_SHA 622862e0479956c98cf0327b5bcb17abada6a0ec
 
 # From https://github.com/phacility/libphutil/commits/stable
-# Promote 2017 Week 41
-ENV LIBPHUTIL_GIT_SHA 7a90825f14b2bcb2ffea52191c82e231292619f5
+# Promote 2017 Week 14 (sic, Week 44)
+ENV LIBPHUTIL_GIT_SHA 3510bfbc8879ff9739495b32b3386c4bf644937c
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
 # Explicitly set TMPDIR
