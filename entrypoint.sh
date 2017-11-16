@@ -19,53 +19,69 @@ set -x
 test -n "${1}" \
   && ARG=$(echo ${1:-start}  | tr [A-Z] [a-z])
 
-case "$ARG" in
-  "start")
-      set +e
+start() {
+    set +e
 
-      # Set the local repository
-      if [ -n "${REPOSITORY_LOCAL_PATH}" ]; then
-        if [ -d "${REPOSITORY_LOCAL_PATH}" ]; then
-          :
-        else
-          mkdir -p "${REPOSITORY_LOCAL_PATH}"
+    # Set the local repository
+    if [ -n "${REPOSITORY_LOCAL_PATH}" ]; then
+        if [ ! -d "${REPOSITORY_LOCAL_PATH}" ]; then
+            mkdir -p "${REPOSITORY_LOCAL_PATH}"
         fi
         ./bin/config set repository.default-local-path "${REPOSITORY_LOCAL_PATH}"
-      else
+        else
         echo "No REPOSITORY_LOCAL_PATH set"
         exit
-      fi
+    fi
 
-      # You should set the base URI to the URI you will use to access Phabricator,
-      # like "http://phabricator.example.com/".
+    # You should set the base URI to the URI you will use to access Phabricator,
+    # like "http://phabricator.example.com/".
 
-      # Include the protocol (http or https), domain name, and port number if you are
-      # using a port other than 80 (http) or 443 (https).
-      test -n "${PHABRICATOR_URI}" \
-       && ./bin/config set phabricator.base-uri "${PHABRICATOR_URI}"
-      test -n "${PHABRICATOR_CDN_URI}" \
-       && ./bin/config set security.alternate-file-domain "${PHABRICATOR_CDN_URI}"
+    # Include the protocol (http or https), domain name, and port number if you are
+    # using a port other than 80 (http) or 443 (https).
+    test -n "${PHABRICATOR_URI}" \
+        && ./bin/config set phabricator.base-uri "${PHABRICATOR_URI}"
+    test -n "${PHABRICATOR_CDN_URI}" \
+        && ./bin/config set security.alternate-file-domain "${PHABRICATOR_CDN_URI}"
 
-      # When running as a development environment or for demonstration purposes we
-      # may want to set the default values for bugzilla settings to something custom.
-      test -n "${BUGZILLA_URL}" \
-       && ./bin/config set bugzilla.url "${BUGZILLA_URL}"
-      test -n "${BUGZILLA_AUTOMATION_USER}" \
-       && ./bin/config set bugzilla.automation_user "${BUGZILLA_AUTOMATION_USER}"
-      test -n "${BUGZILLA_AUTOMATION_API_KEY}" \
-       && ./bin/config set bugzilla.automation_api_key "${BUGZILLA_AUTOMATION_API_KEY}"
+    # When running as a development environment or for demonstration purposes we
+    # may want to set the default values for bugzilla settings to something custom.
+    test -n "${BUGZILLA_URL}" \
+        && ./bin/config set bugzilla.url "${BUGZILLA_URL}"
+    test -n "${BUGZILLA_AUTOMATION_USER}" \
+        && ./bin/config set bugzilla.automation_user "${BUGZILLA_AUTOMATION_USER}"
+    test -n "${BUGZILLA_AUTOMATION_API_KEY}" \
+        && ./bin/config set bugzilla.automation_api_key "${BUGZILLA_AUTOMATION_API_KEY}"
 
-      # Set recommended runtime configuration values to silence setup warnings.
-      ./bin/config set storage.mysql-engine.max-size 8388608
-      ./bin/config set pygments.enabled true
-      ./bin/config set phabricator.timezone UTC
+    # Set recommended runtime configuration values to silence setup warnings.
+    ./bin/config set storage.mysql-engine.max-size 8388608
+    ./bin/config set pygments.enabled true
+    ./bin/config set phabricator.timezone UTC
 
-      # Ensure that we have an updated static resources map
-      # Required so extension resources are accounted for and available
-      ./bin/celerity map
+    # Ensure that we have an updated static resources map
+    # Required so extension resources are accounted for and available
+    ./bin/celerity map
 
-      # Start phd and php-fpm running in the foreground
-      ./bin/phd start && /usr/local/sbin/php-fpm -F
+    # Start phd and php-fpm running in the foreground
+    ./bin/phd start && /usr/local/sbin/php-fpm -F
+}
+
+check_database() {
+    # Upgrade database and also create one if it does not exist
+    set +e
+    DO_DATABASE=0
+    ./bin/storage status > /dev/null 2>&1
+    [ $? -gt 0 ] && DO_DATABASE=1
+    [ ! -z "$(./bin/storage status | grep -i 'not applied')" ] && DO_DATABASE=1
+    [ $DO_DATABASE -gt 0 ] && ./bin/storage upgrade --force
+}
+
+case "$ARG" in
+  "dev_start")
+      check_database
+      start
+      ;;
+  "start")
+      start
       ;;
   "docs")
       # Build diviner docs
@@ -83,13 +99,7 @@ case "$ARG" in
       exit
       ;;
   "check_database")
-      # Upgrade database and also create one if it does not exist
-      set +e
-      DO_DATABASE=0
-      ./bin/storage status > /dev/null 2>&1
-      [ $? -gt 0 ] && DO_DATABASE=1
-      [ ! -z "$(./bin/storage status | grep -i 'not applied')" ] && DO_DATABASE=1
-      [ $DO_DATABASE -gt 0 ] && ./bin/storage upgrade --force
+      check_database
       exit
       ;;
   *)
