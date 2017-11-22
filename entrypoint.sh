@@ -77,6 +77,7 @@ check_database() {
 
 case "$ARG" in
   "dev_start")
+      set +e
       check_database
       start
       ;;
