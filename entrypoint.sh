@@ -79,7 +79,7 @@ case "$ARG" in
   "dev_start")
       set +e
       check_database
-      ./bin/config set auth.require-approval true
+      ./bin/config set auth.require-approval false
       start
       ;;
   "start")
