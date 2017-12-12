@@ -3,8 +3,8 @@ FROM php:5.6-fpm-alpine
 MAINTAINER mars@mozilla.com
 # These are unlikely to change from version to version of the container
 EXPOSE 9000
-ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["start"]
+ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
+CMD ["/app/phabricator/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifact we want to grab.
 # Promote 2018 Week 1 + Fix a copy/paste error on the burnup chart
@@ -68,6 +68,8 @@ RUN apk --no-cache add --virtual build-dependencies \
     && pecl install https://s3.amazonaws.com/net-mozaws-dev-mozphab-pecl-mirror/apcu-4.0.11.tgz \
     && docker-php-ext-enable apcu \
     && apk del build-dependencies
+
+RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 && if test -f /usr/local/bin/dumb-init; then chmod 755 /usr/local/bin/dumb-init; fi
 
 # Install opcache recommended settings from
 # https://secure.php.net/manual/en/opcache.installation.php

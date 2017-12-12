@@ -20,6 +20,7 @@ test -n "${1}" \
   && ARG=$(echo ${1:-start}  | tr [A-Z] [a-z])
 
 start() {
+    test -n "$1" && ARG="$1"
     set +e
 
     # Set the local repository
@@ -60,9 +61,14 @@ start() {
     # Ensure that we have an updated static resources map
     # Required so extension resources are accounted for and available
     ./bin/celerity map
-
-    # Start phd and php-fpm running in the foreground
-    ./bin/phd start && /usr/local/sbin/php-fpm -F
+    case "$ARG" in
+      "php-fpm")
+        /usr/local/sbin/php-fpm -F
+        ;;
+      *)
+        ./bin/phd start && /usr/local/sbin/php-fpm -F
+        ;;
+    esac
 }
 
 check_database() {
@@ -92,6 +98,9 @@ case "$ARG" in
   "data")
       # Allows the container to be used as a data-volume only container
       /bin/true && exit
+      ;;
+  "php-fpm-only")
+      start php-fpm
       ;;
   "shell"|"admin")
       /bin/sh
