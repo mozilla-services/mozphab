@@ -7,13 +7,13 @@ ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["start"]
 
 # Git commit SHAs for the build artifact we want to grab.
-# Promote 2017 Week 50
+# Promote 2018 Week 1 + Fix a copy/paste error on the burnup chart
 # From https://github.com/phacility/phabricator/commits/stable
-ENV PHABRICATOR_GIT_SHA 25536d0d47ed181ae5e695c0f9a811b26376bec7
+ENV PHABRICATOR_GIT_SHA 53b4882b8073439f00502587e9979f93a56e232d
 
 # From https://github.com/phacility/arcanist/commits/stable
-# Promote 2017 Week 49
-ENV ARCANIST_GIT_SHA 9a2541c08d56b68c2337903c37d0f69280ec9fed
+# Promote 2017 Week 51
+ENV ARCANIST_GIT_SHA 08674ca997b62b695f773c32f0c20e51128bc053
 
 # From https://github.com/phacility/libphutil/commits/stable
 # Promote 2017 Week 48
