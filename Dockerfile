@@ -4,7 +4,7 @@ MAINTAINER mars@mozilla.com
 # These are unlikely to change from version to version of the container
 EXPOSE 9000
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
-CMD ["/app/phabricator/entrypoint.sh", "start"]
+CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifact we want to grab.
 # Promote 2018 Week 1 + Fix a copy/paste error on the burnup chart
