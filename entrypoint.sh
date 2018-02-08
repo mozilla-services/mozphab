@@ -86,6 +86,7 @@ case "$ARG" in
       set +e
       check_database
       ./bin/config set auth.require-approval false
+      ./bin/config set bugzilla.require_mfa false
       start
       ;;
   "start")
