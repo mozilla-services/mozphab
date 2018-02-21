@@ -7,19 +7,21 @@ ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifact we want to grab.
-# Promote 2018 Week 6 plus the following extra commits:
-# - Fix PHPMailer/SMTP configuration typo for legacy SMTP configurations
-# - Correct flipped transaction constants in "Closed Date" migration
 # From https://github.com/phacility/phabricator/commits/stable
-ENV PHABRICATOR_GIT_SHA c56bdc92a2cf5602c4c9182fd6c87bed87ee05e6
+# Promote 2018 Week 7 plus the following extra commits:
+# - (stable) Make dashboard arrange actions (move, add, remove) work again 
+#   after read locking from "chaos reduction"
+# - (stable) Fix an issue with marking aborted buildables failed when more than 
+#   one build is aborted
+ENV PHABRICATOR_GIT_SHA 33b77e4abf9ea9abf1ad8f62880f0f140a015008
 
 # From https://github.com/phacility/arcanist/commits/stable
-# Promote 2018 Week 6
-ENV ARCANIST_GIT_SHA 22b0893473ae5d3b2236254677cf027719af4528
+# Promote 2018 Week 7
+ENV ARCANIST_GIT_SHA 8fe1d7701e5daa3b7c8d96847fa335c0fbf66816
 
 # From https://github.com/phacility/libphutil/commits/stable
-# Promote 2018 Week 6
-ENV LIBPHUTIL_GIT_SHA fd9060c5a1efca58feb4b0f8fdf77a325a4e7a2e
+# Promote 2018 Week 7
+ENV LIBPHUTIL_GIT_SHA 6d394d4dab71a3c39cb6136ad112c134aa900ac8
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
 # Explicitly set TMPDIR
