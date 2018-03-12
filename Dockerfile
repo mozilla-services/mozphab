@@ -6,15 +6,14 @@ EXPOSE 9000
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 CMD ["/app/entrypoint.sh", "start"]
 
-# Git commit SHAs for the build artifact we want to grab.
+# Git commit SHAs for the build artifacts we want to grab.
 # From https://github.com/phacility/phabricator/commits/stable
-# Promote 2018 Week 9 plus the following extra commits:
-# (stable) Don't emit Content-Security-Policy when returning a response during preflight setup checks
-ENV PHABRICATOR_GIT_SHA e43f2e0cee09d7d327c0564835a14796a6cdcd98
-
+# Promote 2018 Week 10 plus the following extra commits:
+# (stable) Update Celerity map for 2018 Week 10
+ENV PHABRICATOR_GIT_SHA f0da189798fa00af46eee1289d733f4bb058b1ba
 # From https://github.com/phacility/arcanist/commits/stable
-# Promote 2018 Week 7
-ENV ARCANIST_GIT_SHA 8fe1d7701e5daa3b7c8d96847fa335c0fbf66816
+# Promote 2018 Week 10
+ENV ARCANIST_GIT_SHA 7b6a9a93f4a4991b5173a2e9a1b2d8e4f630405f
 
 # From https://github.com/phacility/libphutil/commits/stable
 # Promote 2018 Week 9
