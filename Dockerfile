@@ -8,13 +8,11 @@ CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
 # From https://github.com/phacility/phabricator/commits/stable
-# Promote 2018 Week 12 plus the following extra commits:
-# (stable) Drop uniqueness constraint on PushEvent request ID
-ENV PHABRICATOR_GIT_SHA 5e710959bed93b75f239821b739e55d0b8a63122
+# Promote 2018 Week 13
+ENV PHABRICATOR_GIT_SHA 126f7f0d561c184bcfdc703938696f3edab751d8
 # From https://github.com/phacility/arcanist/commits/stable
-# Promote 2018 Week 10
-ENV ARCANIST_GIT_SHA 7b6a9a93f4a4991b5173a2e9a1b2d8e4f630405f
-
+# Promote 2018 Week 13
+ENV ARCANIST_GIT_SHA c8b716c4a848d2214f73e0a121eed1a2aade818a
 # From https://github.com/phacility/libphutil/commits/stable
 # Promote 2018 Week 11
 ENV LIBPHUTIL_GIT_SHA 47cfa511ca6782df13c459fdd212606f091a44ec
