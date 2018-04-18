@@ -8,14 +8,14 @@ CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
 # From https://github.com/phacility/phabricator/commits/stable
-# Promote 2018 Week 13
-ENV PHABRICATOR_GIT_SHA 126f7f0d561c184bcfdc703938696f3edab751d8
+# Promote 2018 Week 15
+ENV PHABRICATOR_GIT_SHA 1f68a3b6eb4b88963b8b173f1da5002d36f2c394
 # From https://github.com/phacility/arcanist/commits/stable
-# Promote 2018 Week 13
-ENV ARCANIST_GIT_SHA c8b716c4a848d2214f73e0a121eed1a2aade818a
+# Promote 2018 Week 14
+ENV ARCANIST_GIT_SHA 6185c8911737f4dec0d0918cc72cd07a701475af
 # From https://github.com/phacility/libphutil/commits/stable
-# Promote 2018 Week 11
-ENV LIBPHUTIL_GIT_SHA 47cfa511ca6782df13c459fdd212606f091a44ec
+# Promote 2018 Week 15
+ENV LIBPHUTIL_GIT_SHA f3e10579f640ebad648c56f677164647ab7251a4
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
 # Explicitly set TMPDIR
