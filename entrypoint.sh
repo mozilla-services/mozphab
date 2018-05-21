@@ -58,6 +58,9 @@ start() {
     ./bin/config set pygments.enabled true
     ./bin/config set phabricator.timezone UTC
 
+    # Enable certain prototype features such as Draft mode for revisions
+    ./bin/config set phabricator.show-prototypes true
+
     # Ensure that we have an updated static resources map
     # Required so extension resources are accounted for and available
     ./bin/celerity map
