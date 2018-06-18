@@ -8,9 +8,8 @@ CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
 # From https://github.com/phacility/phabricator/commits/stable
-# Promote 2018 Week 23 plus:
-#  (stable) Make re-running `rebuild-identities` a bit faster and add a little progress information
-ENV PHABRICATOR_GIT_SHA 38557b96c27edb7de2ba1f4023b92c47df82635c
+# Promote 2018 Week 24
+ENV PHABRICATOR_GIT_SHA 52600a415159595526d48bf1d8de4887f7840fad
 # From https://github.com/phacility/arcanist/commits/stable
 # Promote 2018 Week 23
 ENV ARCANIST_GIT_SHA 8b1be5b87f046ce513f011fbf795ea892f72f215
