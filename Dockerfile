@@ -8,14 +8,16 @@ CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
 # From https://github.com/phacility/phabricator/commits/stable
-# Promote 2018 Week 25
-ENV PHABRICATOR_GIT_SHA cc69bed52fb9ed8beef136f7dfef555a1e91331f
+# Promote 2018 Week 29
+# plus the following:
+# (stable) Add an explicit "null" to a missed diffusion.branchquery callsite to fix Diffusion "Branches" page
+ENV PHABRICATOR_GIT_SHA 84cf7d375523f334c77ae1adf0df4b62c3c242a5
 # From https://github.com/phacility/arcanist/commits/stable
-# Promote 2018 Week 25
-ENV ARCANIST_GIT_SHA b4ba68b9757518525ace92f87de82238041b1882
+# Promote 2018 Week 29
+ENV ARCANIST_GIT_SHA 830661f62833e4601e31854532321bb30be74440
 # From https://github.com/phacility/libphutil/commits/stable
-# Promote 2018 Week 23
-ENV LIBPHUTIL_GIT_SHA 47c97f0c48429a25f35ca9b515c7b9e15889d77f
+# Promote 2018 Week 29
+ENV LIBPHUTIL_GIT_SHA 340445cf69474ce4246c49bfaaa694851b9b0a48
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
 # Explicitly set TMPDIR
@@ -100,16 +102,12 @@ COPY . /app
 WORKDIR /app
 
 # Install Phabricator code
-RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GIT_SHA}.tar.gz -o phabricator.tar.gz \
-    && curl -fsSL https://github.com/phacility/arcanist/archive/${ARCANIST_GIT_SHA}.tar.gz -o arcanist.tar.gz \
-    && curl -fsSL https://github.com/phacility/libphutil/archive/${LIBPHUTIL_GIT_SHA}.tar.gz -o libphutil.tar.gz \
-    && tar xzf phabricator.tar.gz \
-    && tar xzf arcanist.tar.gz \
-    && tar xzf libphutil.tar.gz \
-    && mv phabricator-${PHABRICATOR_GIT_SHA} phabricator \
-    && mv arcanist-${ARCANIST_GIT_SHA} arcanist \
-    && mv libphutil-${LIBPHUTIL_GIT_SHA} libphutil \
-    && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz \
+RUN git clone https://secure.phabricator.com/source/phabricator.git phabricator --branch stable --depth 1 \
+    && git clone https://secure.phabricator.com/diffusion/ARC/arcanist.git arcanist --branch stable --depth 1 \
+    && git clone https://secure.phabricator.com/source/libphutil.git libphutil --branch stable --depth 1 \
+    && cd phabricator && git reset --hard ${PHABRICATOR_GIT_SHA} && cd .. \
+    && cd arcanist && git reset --hard ${ARCANIST_GIT_SHA} && cd .. \
+    && cd libphutil && git reset --hard ${LIBPHUTIL_GIT_SHA} && cd .. \
     && ./libphutil/scripts/build_xhpast.php
 
 # Create version.json
