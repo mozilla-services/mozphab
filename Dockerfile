@@ -8,10 +8,10 @@ CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
 # From https://github.com/phacility/phabricator/commits/stable
-# Promote 2018 Week 29
+# Promote 2018 Week 30
 # plus the following:
-# (stable) Add an explicit "null" to a missed diffusion.branchquery callsite to fix Diffusion "Branches" page
-ENV PHABRICATOR_GIT_SHA 84cf7d375523f334c77ae1adf0df4b62c3c242a5
+# (stable) Remove the execution time limit (if any) before sinking HTTP responses
+ENV PHABRICATOR_GIT_SHA 58e8d3c134790e2c58e34568dc65f1951561dcb2
 # From https://github.com/phacility/arcanist/commits/stable
 # Promote 2018 Week 29
 ENV ARCANIST_GIT_SHA 830661f62833e4601e31854532321bb30be74440
