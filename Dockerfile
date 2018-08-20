@@ -7,13 +7,13 @@ ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
-# From https://github.com/phacility/phabricator/commits/stable
+# From https://secure.phabricator.com/source/phabricator.git
 # Promote 2018 Week 33
 ENV PHABRICATOR_GIT_SHA 5bcaa0f557ded7347fb17047d583f06c19be4a52
-# From https://github.com/phacility/arcanist/commits/stable
+# From https://secure.phabricator.com/diffusion/ARC/arcanist.git
 # Promote 2018 Week 31
 ENV ARCANIST_GIT_SHA 9dfa68d739ee05e806018821cd4d997307ae54f1
-# From https://github.com/phacility/libphutil/commits/stable
+# From https://secure.phabricator.com/source/libphutil.git
 # Promote 2018 Week 33
 ENV LIBPHUTIL_GIT_SHA a16485ffb2551334027b16e7bcec86643c630fbe
 # Should match the phabricator 'repository.default-local-path' setting.
