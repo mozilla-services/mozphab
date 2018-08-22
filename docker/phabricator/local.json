@@ -26,5 +26,5 @@
   "security.require-https": false,
   "security.require-multi-factor-auth": false,
   "security.strict-transport-security": true,
-  "syntax.filemap": { "@\\.rs$@": "rust" },
+  "syntax.filemap": { "@\\.rs$@": "rust" }
 }
