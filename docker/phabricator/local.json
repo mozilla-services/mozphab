@@ -1,5 +1,5 @@
 {
-  "account.minimum-password-length": 12
+  "account.minimum-password-length": 12,
   "auth.require-approval": false,
   "bugzilla.automation_user": "phab-bot@bmo.tld",
   "bugzilla.require_mfa": false,
