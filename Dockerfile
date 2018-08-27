@@ -100,9 +100,9 @@ COPY . /app
 WORKDIR /app
 
 # Install Phabricator code
-RUN git clone https://secure.phabricator.com/source/phabricator.git phabricator --branch stable --depth 1 \
-    && git clone https://secure.phabricator.com/diffusion/ARC/arcanist.git arcanist --branch stable --depth 1 \
-    && git clone https://secure.phabricator.com/source/libphutil.git libphutil --branch stable --depth 1 \
+RUN git clone https://secure.phabricator.com/source/phabricator.git phabricator --branch stable --depth 10 \
+    && git clone https://secure.phabricator.com/diffusion/ARC/arcanist.git arcanist --branch stable --depth 10 \
+    && git clone https://secure.phabricator.com/source/libphutil.git libphutil --branch stable --depth 10 \
     && cd phabricator && git reset --hard ${PHABRICATOR_GIT_SHA} && cd .. \
     && cd arcanist && git reset --hard ${ARCANIST_GIT_SHA} && cd .. \
     && cd libphutil && git reset --hard ${LIBPHUTIL_GIT_SHA} && cd .. \
