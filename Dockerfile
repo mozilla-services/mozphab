@@ -21,9 +21,6 @@ ENV REPOSITORY_LOCAL_PATH /repo
 # Explicitly set TMPDIR
 ENV TMPDIR /tmp
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.8/community" >> /etc/apk/repositories \
-    && echo "http://dl-cdn.alpinelinux.org/alpine/v3.8/main" >> /etc/apk/repositories
-
 # Runtime dependencies
 RUN apk --no-cache --update add \
     curl \
