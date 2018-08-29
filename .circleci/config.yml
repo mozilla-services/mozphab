@@ -27,8 +27,8 @@ jobs:
             python3 -m ensurepip && \
             rm -r /usr/lib/python*/ensurepip && \
             pip3 install --upgrade pip setuptools && \
-            if [ ! -e /usr/bin/pip  ]; then ln -s pip3 /usr/bin/pip ; fi && \
-            if [[ ! -e /usr/bin/python  ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+            if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+            if [ ! -e /usr/bin/python ]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
             rm -r /root/.cache
       - run:
           name: Install dependencies
@@ -40,12 +40,23 @@ jobs:
       - run: invoke build
       - run: invoke imageid | tee /artifacts/docker-image-shasum256.txt
       - deploy:
+          name: dockerhub latest
+          branch: master
           command: |
-            if [[ !-z $DOCKERHUB_REPO ]]; then
-              docker login -e "$DOCKER_EMAIL" -u "$DOCKER_USER" -p "$DOCKER_PASS"
+            if [[ ! -z $DOCKERHUB_REPO ]]; then
+              docker login "$DOCKER_EMAIL" -u "$DOCKER_USER" -p "$DOCKER_PASS"
               docker tag  "${DOCKERHUB_REPO}" "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
               docker push "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
               docker push "${DOCKERHUB_REPO}:latest"
+            fi
+      - deploy:
+          name: dockerhub tags
+          tags: /.*/
+          command: |
+            if [ ! -z $DOCKERHUB_REPO ]; then
+              docker login "$DOCKER_EMAIL" -u "$DOCKER_USER" -p "$DOCKER_PASS"
+              docker tag  "${DOCKERHUB_REPO}" "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
+              docker push "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
             fi
       - store_artifacts:
           path: /artifacts
