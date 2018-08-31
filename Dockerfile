@@ -32,7 +32,6 @@ RUN apk --no-cache --update add \
     libpng \
     make \
     mariadb-client \
-    mariadb-client-libs \
     ncurses \
     py-pygments
 
