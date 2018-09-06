@@ -85,8 +85,7 @@ case "$ARG" in
   "dev_start")
       set +e
       check_database
-      ./bin/config set auth.require-approval false
-      ./bin/config set bugzilla.require_mfa false
+      mv /app/docker/phabricator/local.json /app/phabricator/conf/local/local.json
       start
       ;;
   "start")
