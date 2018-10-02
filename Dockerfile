@@ -8,14 +8,14 @@ CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
 # From https://secure.phabricator.com/source/phabricator.git
-# Promote 2018 Week 36
-ENV PHABRICATOR_GIT_SHA 37a40d82726b31d45446306b9306b9cd48b219b4
+# Promote 2018 Week 39
+ENV PHABRICATOR_GIT_SHA 5caae5738ea9ca8bcba9042e047228385fc8b155
 # From https://secure.phabricator.com/diffusion/ARC/arcanist.git
-# Promote 2018 Week 36
-ENV ARCANIST_GIT_SHA 3ef17ab1bb95c0acbec06f33101513535d269d6c
+# Promote 2018 Week 37
+ENV ARCANIST_GIT_SHA f5e65a808e21710fb3818842d5e0b52a0f67c387
 # From https://secure.phabricator.com/source/libphutil.git
-# Promote 2018 Week 36
-ENV LIBPHUTIL_GIT_SHA b72027783a8372f6d216a5211a6f7e4ed10246d1
+# Promote 2018 Week 39
+ENV LIBPHUTIL_GIT_SHA eca2a4b0321f4a4082eea82a09fa9c330058ac33
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
 # Explicitly set TMPDIR
@@ -99,16 +99,20 @@ COPY . /app
 WORKDIR /app
 
 # Install Phabricator code
-RUN git clone https://secure.phabricator.com/source/phabricator.git phabricator --branch stable --depth 10 \
-    && git clone https://secure.phabricator.com/diffusion/ARC/arcanist.git arcanist --branch stable --depth 10 \
-    && git clone https://secure.phabricator.com/source/libphutil.git libphutil --branch stable --depth 10 \
-    && cd phabricator && git reset --hard ${PHABRICATOR_GIT_SHA} && cd .. \
-    && cd arcanist && git reset --hard ${ARCANIST_GIT_SHA} && cd .. \
-    && cd libphutil && git reset --hard ${LIBPHUTIL_GIT_SHA} && cd .. \
+RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GIT_SHA}.tar.gz -o phabricator.tar.gz \
+    && curl -fsSL https://github.com/phacility/arcanist/archive/${ARCANIST_GIT_SHA}.tar.gz -o arcanist.tar.gz \
+    && curl -fsSL https://github.com/phacility/libphutil/archive/${LIBPHUTIL_GIT_SHA}.tar.gz -o libphutil.tar.gz \
+    && tar xzf phabricator.tar.gz \
+    && tar xzf arcanist.tar.gz \
+    && tar xzf libphutil.tar.gz \
+    && mv phabricator-${PHABRICATOR_GIT_SHA} phabricator \
+    && mv arcanist-${ARCANIST_GIT_SHA} arcanist \
+    && mv libphutil-${LIBPHUTIL_GIT_SHA} libphutil \
+    && rm phabricator.tar.gz arcanist.tar.gz libphutil.tar.gz \
     && ./libphutil/scripts/build_xhpast.php
 
 # Create version.json
-RUN /app/merge_versions.py
+RUN chmod +x /app/merge_versions.py && /app/merge_versions.py
 
 RUN chmod +x /app/entrypoint.sh /app/wait-for-mysql.php \
     && mkdir $REPOSITORY_LOCAL_PATH \
