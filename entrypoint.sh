@@ -87,6 +87,7 @@ case "$ARG" in
       check_database
       ./bin/config set auth.require-approval false
       ./bin/config set bugzilla.require_mfa false
+      ./bin/config set phabricator.show-prototypes true
       start
       ;;
   "start")
