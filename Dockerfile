@@ -1,4 +1,4 @@
-FROM php:5.6-fpm-alpine
+FROM php:7.3.5-fpm-alpine
 
 MAINTAINER mars@mozilla.com
 # These are unlikely to change from version to version of the container
@@ -8,14 +8,14 @@ CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
 # From https://github.com/phacility/phabricator/tree/stable
-# Promote 2019 Week 16
-ENV PHABRICATOR_GIT_SHA f040a591e6171e9366d185c9b00b23dc124aabe1
+# Promote 2019 Week 20
+ENV PHABRICATOR_GIT_SHA 3337b84073f992590e6241e612946b33a2d26e8a
 # From https://github.com/phacility/arcanist/tree/stable
-# Promote 2019 Week 10
-ENV ARCANIST_GIT_SHA 4d22e0f89f10b8a7f47f6ee615e0ccf0f354e582
+# Promote 2019 Week 20
+ENV ARCANIST_GIT_SHA 26452002a2560eb340921a9798860041229163d9
 # From https://github.com/phacility/libphutil/tree/stable
-# Promote 2019 Week 16
-ENV LIBPHUTIL_GIT_SHA 3e6a9946bcfc39591dbd9a571d1f56c8c27d4a0a
+# Promote 2019 Week 20
+ENV LIBPHUTIL_GIT_SHA 1185300a23d9b0a611ecaf8c99e90c92097f5c67
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
 # Explicitly set TMPDIR
@@ -58,12 +58,13 @@ RUN apk --no-cache add --virtual build-dependencies \
         gd \
         iconv \
         mbstring \
-        mcrypt \
         mysqli \
         opcache \
         pcntl \
-    && pecl install https://s3.amazonaws.com/net-mozaws-dev-mozphab-pecl-mirror/apcu-4.0.11.tgz \
+    && pecl install apcu-5.1.17 \
     && docker-php-ext-enable apcu \
+    && pecl install mcrypt-1.0.2 \
+    && docker-php-ext-enable mcrypt \
     && apk del build-dependencies
 
 RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 && if test -f /usr/local/bin/dumb-init; then chmod 755 /usr/local/bin/dumb-init; fi
