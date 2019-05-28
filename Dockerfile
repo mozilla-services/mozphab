@@ -98,6 +98,7 @@ RUN addgroup -g 10001 app && adduser -D -u 10001 -G app -h /app -s /bin/sh app
 
 COPY . /app
 WORKDIR /app
+RUN mkdir tmpfiles
 
 # Install Phabricator code
 RUN curl -fsSL https://github.com/phacility/phabricator/archive/${PHABRICATOR_GIT_SHA}.tar.gz -o phabricator.tar.gz \
