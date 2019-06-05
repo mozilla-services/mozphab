@@ -53,9 +53,6 @@ start() {
     test -n "${BUGZILLA_AUTOMATION_API_KEY}" \
         && ./bin/config set bugzilla.automation_api_key "${BUGZILLA_AUTOMATION_API_KEY}"
 
-    if test -e /app/tmpfiles/local.json; then
-      cp /app/tmpfiles/local.json /app/phabricator/conf/local/local.json
-    fi
 
     # Set recommended runtime configuration values to silence setup warnings.
     ./bin/config set storage.mysql-engine.max-size 8388608
@@ -84,6 +81,10 @@ check_database() {
     [ ! -z "$(./bin/storage status | grep -i 'not applied')" ] && DO_DATABASE=1
     [ $DO_DATABASE -gt 0 ] && ./bin/storage upgrade --force
 }
+
+if test -e /app/tmpfiles/local.json; then
+    cp /app/tmpfiles/local.json /app/phabricator/conf/local/local.json
+fi
 
 case "$ARG" in
   "dev_start")
