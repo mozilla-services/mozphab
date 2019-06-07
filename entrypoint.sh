@@ -55,7 +55,6 @@ start() {
 
 
     # Set recommended runtime configuration values to silence setup warnings.
-    ./bin/config set storage.mysql-engine.max-size 8388608
     ./bin/config set pygments.enabled true
     ./bin/config set phabricator.timezone UTC
 
@@ -93,6 +92,7 @@ case "$ARG" in
       ./bin/config set auth.require-approval false
       ./bin/config set bugzilla.require_mfa false
       ./bin/config set phabricator.show-prototypes true
+      ./bin/config set storage.mysql-engine.max-size 8388608
       start
       ;;
   "start")
