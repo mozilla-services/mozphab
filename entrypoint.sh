@@ -3,6 +3,10 @@
 
 set -ex
 
+if test -e /app/tmpfiles/local.json; then
+    cp /app/tmpfiles/local.json /app/phabricator/conf/local/local.json
+fi
+
 cd phabricator
 
 test -n "${MYSQL_HOST}" \
@@ -80,10 +84,6 @@ check_database() {
     [ ! -z "$(./bin/storage status | grep -i 'not applied')" ] && DO_DATABASE=1
     [ $DO_DATABASE -gt 0 ] && ./bin/storage upgrade --force
 }
-
-if test -e /app/tmpfiles/local.json; then
-    cp /app/tmpfiles/local.json /app/phabricator/conf/local/local.json
-fi
 
 case "$ARG" in
   "dev_start")
