@@ -33,6 +33,7 @@ RUN apk --no-cache --update add \
     make \
     mariadb-client \
     ncurses \
+    procps \
     py-pygments
 
 # Install mercurial from source b/c it's wicked out of date on main
