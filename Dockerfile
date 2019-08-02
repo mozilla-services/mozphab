@@ -34,12 +34,13 @@ RUN apk --no-cache --update add \
     mariadb-client \
     ncurses \
     procps \
-    py-pygments
+    py-pygments \
+    libzip
 
 # Install mercurial from source b/c it's wicked out of date on main
 COPY mercurial_requirements.txt requirements.txt
 RUN apk add python-dev py-pip && \
-      pip install --require-hashes -r requirements.txt
+    pip install --require-hashes -r requirements.txt
 
 # Build PHP extensions
 RUN apk --no-cache add --virtual build-dependencies \
@@ -49,6 +50,7 @@ RUN apk --no-cache add --virtual build-dependencies \
         libjpeg-turbo-dev \
         libmcrypt-dev \
         libpng-dev \
+        libzip-dev \
         mariadb-dev \
     && docker-php-ext-configure gd \
         --with-freetype-dir=/usr/include \
@@ -66,6 +68,8 @@ RUN apk --no-cache add --virtual build-dependencies \
     && docker-php-ext-enable apcu \
     && pecl install mcrypt-1.0.2 \
     && docker-php-ext-enable mcrypt \
+    && pecl install zip-1.15.4 \
+    && docker-php-ext-enable zip \
     && apk del build-dependencies
 
 RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 && if test -f /usr/local/bin/dumb-init; then chmod 755 /usr/local/bin/dumb-init; fi
