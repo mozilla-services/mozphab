@@ -1,4 +1,4 @@
-FROM php:7.3.5-fpm-alpine
+FROM php:7.3.9-fpm-alpine
 
 MAINTAINER mars@mozilla.com
 # These are unlikely to change from version to version of the container
@@ -8,14 +8,14 @@ CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
 # From https://github.com/phacility/phabricator/tree/stable
-# Promote 2019 Week 33
-ENV PHABRICATOR_GIT_SHA f74f953c7d26b33342de9cb15cd41d652f491cbe
+# Promote 2019 Week 36
+ENV PHABRICATOR_GIT_SHA 19af9d74f8c3b297a695c5eff5b05c8485d9e9bd
 # From https://github.com/phacility/arcanist/tree/stable
-# Promote 2019 Week 25
-ENV ARCANIST_GIT_SHA feb5f4d42c4fe0001e76428e80d5e88262308802
+# Promote 2019 Week 36
+ENV ARCANIST_GIT_SHA 8b5fbb5a134611dd1e254bffee0166090caf5ac2
 # From https://github.com/phacility/libphutil/tree/stable
 # Promote 2019 Week 31
-ENV LIBPHUTIL_GIT_SHA 8df85007f38ecd06867582fa0539429a3ae83a37
+ENV LIBPHUTIL_GIT_SHA 7736d42caf875f595d1a4e181926834a7d0e120c
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
 # Explicitly set TMPDIR
