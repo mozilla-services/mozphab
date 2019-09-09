@@ -14,7 +14,7 @@ ENV PHABRICATOR_GIT_SHA 19af9d74f8c3b297a695c5eff5b05c8485d9e9bd
 # Promote 2019 Week 36
 ENV ARCANIST_GIT_SHA 8b5fbb5a134611dd1e254bffee0166090caf5ac2
 # From https://github.com/phacility/libphutil/tree/stable
-# Promote 2019 Week 31
+# Promote 2019 Week 36
 ENV LIBPHUTIL_GIT_SHA 7736d42caf875f595d1a4e181926834a7d0e120c
 # Should match the phabricator 'repository.default-local-path' setting.
 ENV REPOSITORY_LOCAL_PATH /repo
