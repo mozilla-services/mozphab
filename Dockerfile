@@ -1,4 +1,4 @@
-FROM php:7.3.9-fpm-alpine
+FROM php:7.3.11-fpm-alpine
 
 MAINTAINER mars@mozilla.com
 # These are unlikely to change from version to version of the container
@@ -8,11 +8,11 @@ CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
 # From https://github.com/phacility/phabricator/tree/stable
-# Promote 2019 Week 39 plus 3 extra commits
-ENV PHABRICATOR_GIT_SHA 9d644f1bfea11e7a02024c83b11a750fef97cea2
+# Promote 2019 Week 43 plus 4 extra commits
+ENV PHABRICATOR_GIT_SHA e4cc74f1b87aa79801933b8fe92430016ad7a069
 # From https://github.com/phacility/arcanist/tree/stable
-# Promote 2019 Week 36
-ENV ARCANIST_GIT_SHA 8b5fbb5a134611dd1e254bffee0166090caf5ac2
+# Promote 2019 Week 43
+ENV ARCANIST_GIT_SHA 79ec6e44594fd1c06032b1ae90e165131b72120e
 # From https://github.com/phacility/libphutil/tree/stable
 # Promote 2019 Week 39
 ENV LIBPHUTIL_GIT_SHA 1750586fdc50a6cd98adba4aa2f5a7649bd91dbe
