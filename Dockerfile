@@ -8,8 +8,8 @@ CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
 # From https://github.com/phacility/phabricator/tree/stable
-# Promote 2019 Week 44
-ENV PHABRICATOR_GIT_SHA 7585b1212b90467088092cc89debdf832ac2a221
+# Promote 2019 Week 45
+ENV PHABRICATOR_GIT_SHA cf6df55dbee3482e9400867e6ff4e4d76266fe33
 # From https://github.com/phacility/arcanist/tree/stable
 # Promote 2019 Week 44
 ENV ARCANIST_GIT_SHA db1959900a644d9b28064ec479af3296331d2a4f
