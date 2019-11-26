@@ -1,6 +1,7 @@
 FROM php:7.3.11-fpm-alpine
 
-MAINTAINER mars@mozilla.com
+LABEL maintainer "mars@mozilla.com"
+
 # These are unlikely to change from version to version of the container
 EXPOSE 9000
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
@@ -8,11 +9,11 @@ CMD ["/app/entrypoint.sh", "start"]
 
 # Git commit SHAs for the build artifacts we want to grab.
 # From https://github.com/phacility/phabricator/tree/stable
-# Promote 2019 Week 45
-ENV PHABRICATOR_GIT_SHA cf6df55dbee3482e9400867e6ff4e4d76266fe33
+# Promote 2019 Week 47
+ENV PHABRICATOR_GIT_SHA 6de53cf50c38264ffa8dbee729ad7e8599410bbf
 # From https://github.com/phacility/arcanist/tree/stable
-# Promote 2019 Week 44
-ENV ARCANIST_GIT_SHA db1959900a644d9b28064ec479af3296331d2a4f
+# Promote 2019 Week 46
+ENV ARCANIST_GIT_SHA bac2028421a4be6e34e08764bbbda49e68b3a604
 # From https://github.com/phacility/libphutil/tree/stable
 # Promote 2019 Week 39
 ENV LIBPHUTIL_GIT_SHA 1750586fdc50a6cd98adba4aa2f5a7649bd91dbe
