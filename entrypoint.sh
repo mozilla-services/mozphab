@@ -69,6 +69,11 @@ start() {
       "php-fpm")
         /usr/local/sbin/php-fpm -F
         ;;
+      "dev")
+        # TODO rather than installing "opcache" in our base phabricator image, then reverting it for dev,
+        # we should have a production and dev image (and only install "opcache" in the production one)
+        ./bin/phd start && exec /usr/local/sbin/php-fpm -d opcache.enable=0 -F
+        ;;
       *)
         ./bin/phd start && /usr/local/sbin/php-fpm -F
         ;;
@@ -93,7 +98,7 @@ case "$ARG" in
       ./bin/config set bugzilla.require_mfa false
       ./bin/config set phabricator.show-prototypes true
       ./bin/config set storage.mysql-engine.max-size 8388608
-      start
+      start dev
       ;;
   "start")
       start
