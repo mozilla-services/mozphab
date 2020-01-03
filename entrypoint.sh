@@ -79,9 +79,12 @@ start() {
         /usr/local/sbin/php-fpm -F
         ;;
       "dev")
-        # TODO rather than installing "opcache" in our base phabricator image, then reverting it for dev,
-        # we should have a production and dev image (and only install "opcache" in the production one)
-        ./bin/phd start && exec /usr/local/sbin/php-fpm -d opcache.enable=0 -F
+        # the host is always octet 1 on the current virtual network
+        # E.g.: if this container is running on 172.27.0.16, the host is 172.27.0.1
+        host_address=$(hostname -i | awk '{split($1,a,".");print a[1] "." a[2] "." a[3] ".1"}')
+        export XDEBUG_CONFIG="remote_host=$host_address"
+        export PHP_IDE_CONFIG="serverName=phabricator.test"
+        ./bin/phd start && exec /usr/local/sbin/php-fpm -F
         ;;
       *)
         ./bin/phd start && exec /usr/local/sbin/php-fpm -F

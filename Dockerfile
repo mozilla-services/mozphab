@@ -63,7 +63,6 @@ RUN apk --no-cache add --virtual build-dependencies \
         iconv \
         mbstring \
         mysqli \
-        opcache \
         pcntl \
     && pecl install apcu-5.1.17 \
     && docker-php-ext-enable apcu \
@@ -74,17 +73,6 @@ RUN apk --no-cache add --virtual build-dependencies \
     && apk del build-dependencies
 
 RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 && if test -f /usr/local/bin/dumb-init; then chmod 755 /usr/local/bin/dumb-init; fi
-
-# Install opcache recommended settings from
-# https://secure.php.net/manual/en/opcache.installation.php
-RUN { \
-        echo 'opcache.memory_consumption=128'; \
-        echo 'opcache.interned_strings_buffer=8'; \
-        echo 'opcache.max_accelerated_files=4000'; \
-        echo 'opcache.fast_shutdown=1'; \
-        echo 'opcache.enable_cli=1'; \
-        echo 'opcache.validate_timestamps=0'; \
-    } | tee /usr/local/etc/php/conf.d/opcache.ini
 
 # The container does not log errors by default, so turn them on
 RUN { \
