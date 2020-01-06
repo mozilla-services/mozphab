@@ -3,6 +3,15 @@
 
 set -ex
 
+# Our base Docker image (php:7.3.11-fpm-alpine) uses SIGQUIT as the stop signal, which sh will ignore (see 12.1.1.2 in
+# this article: https://linux.die.net/Bash-Beginners-Guide/sect_12_01.html).
+# > In the absence of any traps, an interactive Bash shell ignores SIGTERM and SIGQUIT.
+# This is handled in two ways:
+# 1. This trap will be executed when sh receives a SIGTERM and bash isn't waiting for a command to complete
+# 2. For the long-running process (php-fpm), "exec" it so that it receives the SIGTERM (rather than sh, which is
+#    waiting for php-fpm to complete)
+trap 'exit 0' 3
+
 if test -e /app/tmpfiles/local.json; then
     cp /app/tmpfiles/local.json /app/phabricator/conf/local/local.json
 fi
@@ -70,7 +79,7 @@ start() {
         /usr/local/sbin/php-fpm -F
         ;;
       *)
-        ./bin/phd start && /usr/local/sbin/php-fpm -F
+        ./bin/phd start && exec /usr/local/sbin/php-fpm -F
         ;;
     esac
 }
